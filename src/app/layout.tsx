@@ -24,20 +24,37 @@ export const metadata: Metadata = {
     title: "Winanda Hartadi | Fullstack Developer",
     description:
       "A Computer Science student at BINUS University passionate about creating innovative, user-friendly applications.",
-    url: "https://portofolio.winandahartadi.cloud",
+    url: "https://winandahartadi.cloud",
     siteName: "Winanda Hartadi Portfolio",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/images/portrait.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Winanda Hartadi | Fullstack Developer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Winanda Hartadi | Fullstack Developer",
     description:
       "A Computer Science student at BINUS University passionate about creating innovative, user-friendly applications.",
+    images: ["/images/portrait.jpg"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
