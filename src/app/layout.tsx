@@ -11,6 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/icon.svg",
+  },
   title: {
     default: "Winanda Hartadi | Fullstack Developer",
     template: "%s | Winanda Hartadi",
@@ -21,7 +24,7 @@ export const metadata: Metadata = {
     title: "Winanda Hartadi | Fullstack Developer",
     description:
       "A Computer Science student at BINUS University passionate about creating innovative, user-friendly applications.",
-    url: "https://winandahartadi.com",
+    url: "https://portofolio.winandahartadi.cloud",
     siteName: "Winanda Hartadi Portfolio",
     locale: "en_US",
     type: "website",
