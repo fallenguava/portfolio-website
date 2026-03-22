@@ -50,7 +50,7 @@ export function Navbar() {
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <a
@@ -62,17 +62,17 @@ export function Navbar() {
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-1 rounded-full border border-border/60 bg-card/70 p-1.5 shadow-sm md:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={(e) => handleClick(e, link.href)}
               className={cn(
-                "rounded-md px-3 py-2 text-sm font-medium transition-colors hover:text-blue-500",
+                "rounded-full px-3 py-1.5 text-sm font-medium transition-all duration-200",
                 activeSection === link.href
-                  ? "text-blue-500"
-                  : "text-muted-foreground",
+                  ? "bg-blue-500/10 text-blue-600 dark:text-blue-300"
+                  : "text-muted-foreground hover:text-blue-500",
               )}
             >
               {link.name}
@@ -107,7 +107,7 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden border-b border-border/40 bg-background md:hidden"
+            className="overflow-hidden border-b border-border/40 bg-background/95 backdrop-blur-xl md:hidden"
           >
             <div className="space-y-1 px-4 pb-4 pt-2">
               {navLinks.map((link) => (
@@ -116,9 +116,9 @@ export function Navbar() {
                   href={link.href}
                   onClick={(e) => handleClick(e, link.href)}
                   className={cn(
-                    "block rounded-md px-3 py-2 text-sm font-medium transition-colors hover:text-blue-500",
+                    "block rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:text-blue-500",
                     activeSection === link.href
-                      ? "text-blue-500 bg-accent"
+                      ? "bg-blue-500/10 text-blue-500"
                       : "text-muted-foreground",
                   )}
                 >
