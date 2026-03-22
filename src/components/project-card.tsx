@@ -1,8 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { ExternalLink, Github } from "lucide-react";
+import {
+  Activity,
+  BriefcaseBusiness,
+  Boxes,
+  ChevronDown,
+  ChevronUp,
+  Database,
+  DollarSign,
+  ExternalLink,
+  FlaskConical,
+  Gauge,
+  GitBranch,
+  Github,
+  Globe,
+  Lock,
+  LucideIcon,
+  Palette,
+  Radar,
+  Server,
+  ServerCog,
+  ShieldCheck,
+  Workflow,
+  Wrench,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -20,33 +42,158 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Project } from "@/lib/data";
+import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
   project: Project;
 }
 
+type CategoryVisual = {
+  icon: LucideIcon;
+  headerClass: string;
+  accentTextClass: string;
+  badgeClass: string;
+  hoverBorderClass: string;
+  hoverShadowClass: string;
+  panelClass: string;
+};
+
+const categoryVisuals: Record<Project["category"], CategoryVisual> = {
+  "Web Dev": {
+    icon: Globe,
+    headerClass: "bg-linear-to-r from-sky-500/15 via-sky-500/5 to-transparent",
+    accentTextClass: "text-sky-600 dark:text-sky-400",
+    badgeClass:
+      "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-300",
+    hoverBorderClass: "hover:border-sky-500/50",
+    hoverShadowClass: "hover:shadow-sky-500/10",
+    panelClass: "border-sky-500/20 bg-sky-500/5",
+  },
+  "UI/UX": {
+    icon: Palette,
+    headerClass:
+      "bg-linear-to-r from-rose-500/15 via-rose-500/5 to-transparent",
+    accentTextClass: "text-rose-600 dark:text-rose-400",
+    badgeClass:
+      "border-rose-500/30 bg-rose-500/10 text-rose-700 dark:text-rose-300",
+    hoverBorderClass: "hover:border-rose-500/50",
+    hoverShadowClass: "hover:shadow-rose-500/10",
+    panelClass: "border-rose-500/20 bg-rose-500/5",
+  },
+  Research: {
+    icon: FlaskConical,
+    headerClass:
+      "bg-linear-to-r from-emerald-500/15 via-emerald-500/5 to-transparent",
+    accentTextClass: "text-emerald-600 dark:text-emerald-400",
+    badgeClass:
+      "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+    hoverBorderClass: "hover:border-emerald-500/50",
+    hoverShadowClass: "hover:shadow-emerald-500/10",
+    panelClass: "border-emerald-500/20 bg-emerald-500/5",
+  },
+  Business: {
+    icon: BriefcaseBusiness,
+    headerClass:
+      "bg-linear-to-r from-amber-500/20 via-amber-500/5 to-transparent",
+    accentTextClass: "text-amber-600 dark:text-amber-400",
+    badgeClass:
+      "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300",
+    hoverBorderClass: "hover:border-amber-500/50",
+    hoverShadowClass: "hover:shadow-amber-500/10",
+    panelClass: "border-amber-500/20 bg-amber-500/5",
+  },
+  Infrastructure: {
+    icon: Server,
+    headerClass:
+      "bg-linear-to-r from-indigo-500/15 via-indigo-500/5 to-transparent",
+    accentTextClass: "text-indigo-600 dark:text-indigo-400",
+    badgeClass:
+      "border-indigo-500/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-300",
+    hoverBorderClass: "hover:border-indigo-500/50",
+    hoverShadowClass: "hover:shadow-indigo-500/10",
+    panelClass: "border-indigo-500/20 bg-indigo-500/5",
+  },
+};
+
+const caseStudyIconMap: Record<string, LucideIcon> = {
+  Activity,
+  Boxes,
+  Database,
+  DollarSign,
+  Gauge,
+  GitBranch,
+  Lock,
+  Radar,
+  ServerCog,
+  ShieldCheck,
+  Workflow,
+  Wrench,
+};
+
 export function ProjectCard({ project }: ProjectCardProps) {
   const [open, setOpen] = useState(false);
+  const [showTechnicalDepth, setShowTechnicalDepth] = useState(false);
+  const visual = categoryVisuals[project.category];
+  const CategoryIcon = visual.icon;
+  const caseStudy = project.caseStudy;
 
   return (
     <>
       <Card
-        className="group cursor-pointer overflow-hidden border-border/50 bg-card transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/5"
+        className={cn(
+          "group cursor-pointer overflow-hidden border-border/50 bg-card transition-all duration-300 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2",
+          visual.hoverBorderClass,
+          visual.hoverShadowClass,
+        )}
+        role="button"
+        tabIndex={0}
+        aria-label={`Open ${project.title} details`}
         onClick={() => setOpen(true)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setOpen(true);
+          }
+        }}
       >
-        {/* Project Image */}
-        <div className="relative aspect-video w-full overflow-hidden bg-muted">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
+        <div
+          className={cn(
+            "border-b border-border/60 px-5 py-4",
+            visual.headerClass,
+          )}
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/60 bg-background/80">
+                <CategoryIcon
+                  className={cn("h-4 w-4", visual.accentTextClass)}
+                />
+              </span>
+              <Badge
+                variant="outline"
+                className={cn("font-medium", visual.badgeClass)}
+              >
+                {project.category}
+              </Badge>
+            </div>
+            <span
+              className={cn(
+                "text-xs font-medium text-muted-foreground transition-colors",
+                visual.accentTextClass,
+              )}
+            >
+              View details
+            </span>
+          </div>
         </div>
 
-        <CardHeader className="pb-2">
-          <CardTitle className="line-clamp-1 text-lg transition-colors group-hover:text-blue-500">
+        <CardHeader className="pb-3">
+          <CardTitle
+            className={cn(
+              "line-clamp-1 text-lg transition-colors",
+              visual.accentTextClass,
+            )}
+          >
             {project.title}
           </CardTitle>
           <CardDescription className="line-clamp-2 text-sm">
@@ -55,6 +202,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </CardHeader>
 
         <CardContent className="pt-0">
+          <p className="mb-3 text-xs text-muted-foreground">
+            {project.techStack.length} technologies
+          </p>
           <div className="flex flex-wrap gap-1.5">
             {project.techStack.slice(0, 3).map((tech) => (
               <Badge
@@ -75,8 +225,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </Card>
 
       {/* Dialog (Modal) */}
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
+      <Dialog
+        open={open}
+        onOpenChange={(next) => {
+          setOpen(next);
+          if (!next) {
+            setShowTechnicalDepth(false);
+          }
+        }}
+      >
+        <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-3xl">
           <DialogHeader>
             <DialogTitle className="text-xl">{project.title}</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
@@ -84,21 +242,254 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </DialogDescription>
           </DialogHeader>
 
-          {/* Project Image in Modal */}
-          <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 672px) 100vw, 672px"
-            />
+          <div
+            className={cn(
+              "grid gap-3 rounded-lg border p-4 text-sm sm:grid-cols-2",
+              visual.panelClass,
+            )}
+          >
+            <div>
+              <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                Category
+              </p>
+              <div className="flex items-center gap-2">
+                <CategoryIcon
+                  className={cn("h-4 w-4", visual.accentTextClass)}
+                />
+                <p className="font-medium text-foreground">
+                  {project.category}
+                </p>
+              </div>
+            </div>
+            <div>
+              <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                Tech Stack Size
+              </p>
+              <p className="font-medium text-foreground">
+                {project.techStack.length} technologies
+              </p>
+            </div>
           </div>
 
           <div className="space-y-4">
-            <p className="text-sm leading-relaxed text-foreground/90">
-              {project.longDescription}
-            </p>
+            {caseStudy ? (
+              <div className="space-y-4">
+                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                  {caseStudy.highlights.map((highlight) => {
+                    const HighlightIcon =
+                      highlight.icon && caseStudyIconMap[highlight.icon]
+                        ? caseStudyIconMap[highlight.icon]
+                        : ServerCog;
+
+                    return (
+                      <div
+                        key={highlight.label}
+                        className={cn(
+                          "rounded-lg border p-3",
+                          highlight.emphasis === "high"
+                            ? visual.panelClass
+                            : "border-border/60 bg-muted/30",
+                        )}
+                      >
+                        <div className="mb-2 flex items-center gap-2">
+                          <HighlightIcon
+                            className={cn("h-4 w-4", visual.accentTextClass)}
+                          />
+                          <p className="text-xs text-muted-foreground">
+                            {highlight.label}
+                          </p>
+                        </div>
+                        <p className="text-sm font-semibold text-foreground">
+                          {highlight.value}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="grid gap-3 md:grid-cols-3">
+                  <div className="rounded-lg border border-border/60 bg-card/70 p-4">
+                    <h4 className="mb-2 text-sm font-semibold text-foreground">
+                      Overview
+                    </h4>
+                    <ul className="space-y-1.5 text-sm text-muted-foreground">
+                      {caseStudy.overview.map((item) => (
+                        <li key={item} className="flex gap-2">
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="rounded-lg border border-border/60 bg-card/70 p-4">
+                    <h4 className="mb-2 text-sm font-semibold text-foreground">
+                      Problem
+                    </h4>
+                    <ul className="space-y-1.5 text-sm text-muted-foreground">
+                      {caseStudy.problem.map((item) => (
+                        <li key={item} className="flex gap-2">
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-500" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="rounded-lg border border-border/60 bg-card/70 p-4">
+                    <h4 className="mb-2 text-sm font-semibold text-foreground">
+                      Solution
+                    </h4>
+                    <ul className="space-y-1.5 text-sm text-muted-foreground">
+                      {caseStudy.solution.map((item) => (
+                        <li key={item} className="flex gap-2">
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowTechnicalDepth((prev) => !prev)}
+                  className="w-full"
+                >
+                  {showTechnicalDepth ? (
+                    <>
+                      <ChevronUp className="mr-2 h-4 w-4" />
+                      Hide technical depth
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="mr-2 h-4 w-4" />
+                      View technical depth
+                    </>
+                  )}
+                </Button>
+
+                {showTechnicalDepth && (
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="mb-2 text-sm font-semibold text-foreground">
+                        {caseStudy.architecture.title}
+                      </h4>
+                      <div className="grid gap-3 md:grid-cols-2">
+                        {caseStudy.architecture.layers.map((layer) => {
+                          const LayerIcon =
+                            layer.icon && caseStudyIconMap[layer.icon]
+                              ? caseStudyIconMap[layer.icon]
+                              : Server;
+
+                          return (
+                            <div
+                              key={layer.title}
+                              className="rounded-lg border border-border/60 bg-muted/25 p-4"
+                            >
+                              <div className="mb-2 flex items-center gap-2">
+                                <LayerIcon
+                                  className={cn(
+                                    "h-4 w-4",
+                                    visual.accentTextClass,
+                                  )}
+                                />
+                                <p className="text-sm font-semibold text-foreground">
+                                  {layer.title}
+                                </p>
+                              </div>
+                              <ul className="space-y-1 text-sm text-muted-foreground">
+                                {layer.items.map((item) => (
+                                  <li key={item}>• {item}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="mb-2 text-sm font-semibold text-foreground">
+                        Key Implementations
+                      </h4>
+                      <div className="grid gap-3 md:grid-cols-2">
+                        {caseStudy.keyImplementations.map((implementation) => {
+                          const ImplementationIcon =
+                            implementation.icon &&
+                            caseStudyIconMap[implementation.icon]
+                              ? caseStudyIconMap[implementation.icon]
+                              : Workflow;
+
+                          return (
+                            <div
+                              key={implementation.title}
+                              className="rounded-lg border border-border/60 bg-card/70 p-4"
+                            >
+                              <div className="mb-2 flex items-center gap-2">
+                                <ImplementationIcon
+                                  className={cn(
+                                    "h-4 w-4",
+                                    visual.accentTextClass,
+                                  )}
+                                />
+                                <p className="text-sm font-semibold text-foreground">
+                                  {implementation.title}
+                                </p>
+                              </div>
+                              <ul className="mb-3 space-y-1 text-sm text-muted-foreground">
+                                {implementation.points.map((point) => (
+                                  <li key={point}>• {point}</li>
+                                ))}
+                              </ul>
+                              <p className="text-sm font-medium text-foreground">
+                                Result: {implementation.result}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <div className="rounded-lg border border-border/60 bg-card/70 p-4">
+                        <h4 className="mb-2 text-sm font-semibold text-foreground">
+                          Achievements
+                        </h4>
+                        <ul className="space-y-1.5 text-sm text-muted-foreground">
+                          {caseStudy.achievements.map((item) => (
+                            <li key={item} className="flex gap-2">
+                              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="rounded-lg border border-border/60 bg-card/70 p-4">
+                        <h4 className="mb-2 text-sm font-semibold text-foreground">
+                          What This Demonstrates
+                        </h4>
+                        <ul className="space-y-1.5 text-sm text-muted-foreground">
+                          {caseStudy.demonstrates.map((item) => (
+                            <li key={item} className="flex gap-2">
+                              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p className="whitespace-pre-line text-sm leading-relaxed text-foreground/90">
+                {project.longDescription}
+              </p>
+            )}
 
             {/* Tech Stack */}
             <div>

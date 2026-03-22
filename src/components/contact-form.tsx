@@ -62,7 +62,7 @@ export function ContactForm() {
 
   if (isSubmitted) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-lg border border-green-500/30 bg-green-500/5 p-8 text-center">
+      <div className="flex flex-col items-center justify-center rounded-xl border border-green-500/30 bg-green-500/5 p-8 text-center shadow-sm">
         <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-500/10">
           <Send className="h-5 w-5 text-green-500" />
         </div>
@@ -98,6 +98,11 @@ export function ContactForm() {
       />
       <input type="checkbox" name="botcheck" className="hidden" />
 
+      <p className="rounded-lg border border-blue-500/20 bg-blue-500/5 px-3 py-2 text-xs text-muted-foreground">
+        I usually respond within 24 hours. Your message is sent securely and
+        will only be used for communication.
+      </p>
+
       <div className="space-y-2">
         <label htmlFor="name" className="text-sm font-medium text-foreground">
           Name
@@ -107,7 +112,7 @@ export function ContactForm() {
           name="name"
           placeholder="Your name"
           required
-          className="border-border/50 bg-card focus:border-blue-500"
+          className="border-border/60 bg-background/90 transition-all focus-visible:border-blue-500 focus-visible:ring-blue-500/30"
         />
       </div>
 
@@ -121,7 +126,7 @@ export function ContactForm() {
           type="email"
           placeholder="your.email@example.com"
           required
-          className="border-border/50 bg-card focus:border-blue-500"
+          className="border-border/60 bg-background/90 transition-all focus-visible:border-blue-500 focus-visible:ring-blue-500/30"
         />
       </div>
 
@@ -138,14 +143,14 @@ export function ContactForm() {
           placeholder="Tell me about your project or idea..."
           required
           rows={5}
-          className="resize-none border-border/50 bg-card focus:border-blue-500"
+          className="resize-none border-border/60 bg-background/90 transition-all focus-visible:border-blue-500 focus-visible:ring-blue-500/30"
         />
       </div>
 
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-blue-500 text-white hover:bg-blue-600"
+        className="w-full bg-blue-500 text-white shadow-md shadow-blue-500/20 hover:bg-blue-600"
       >
         {isSubmitting ? (
           <>
