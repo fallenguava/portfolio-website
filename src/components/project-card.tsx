@@ -141,7 +141,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     <>
       <Card
         className={cn(
-          "group cursor-pointer overflow-hidden border-border/50 bg-card transition-all duration-300 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2",
+          "group cursor-pointer overflow-hidden border-border/50 bg-card transition-all duration-300 hover:shadow-lg hover:transform-[translateY(-8px)_rotateX(4deg)_rotateY(-3deg)] transform-3d focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2",
           visual.hoverBorderClass,
           visual.hoverShadowClass,
         )}
