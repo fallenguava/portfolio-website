@@ -25,6 +25,8 @@ import { ExpandableSection } from "@/components/expandable-section";
 import { ProjectCard } from "@/components/project-card";
 import { ProjectFilter } from "@/components/project-filter";
 import { ContactForm } from "@/components/contact-form";
+import { ImmersiveShell } from "@/components/immersive/immersive-shell";
+import { ImmersiveSection } from "@/components/immersive/immersive-section";
 import {
   personalInfo,
   projects,
@@ -67,9 +69,14 @@ export default function HomePage() {
   ];
 
   return (
-    <>
+    <ImmersiveShell>
       {/* ===== Hero Section ===== */}
-      <section id="home" className="relative scroll-mt-20 overflow-hidden">
+      <ImmersiveSection
+        id="home"
+        index={0}
+        total={5}
+        className="relative scroll-mt-20 overflow-hidden"
+      >
         <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-blue-500/5 via-transparent to-transparent" />
         <div className="pointer-events-none absolute left-1/2 top-20 h-120 w-120 -translate-x-1/2 rounded-full bg-blue-500/10 blur-3xl" />
 
@@ -172,10 +179,14 @@ export default function HomePage() {
             </ScrollReveal>
           </div>
         </div>
-      </section>
+      </ImmersiveSection>
 
       {/* ===== Skills Marquee ===== */}
-      <section className="border-y border-border/40 bg-muted/30 py-8">
+      <ImmersiveSection
+        index={1}
+        total={5}
+        className="border-y border-border/40 bg-muted/30 py-8"
+      >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <p className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
@@ -184,10 +195,15 @@ export default function HomePage() {
           </ScrollReveal>
           <SkillsMarquee />
         </div>
-      </section>
+      </ImmersiveSection>
 
       {/* ===== About Section ===== */}
-      <section id="about" className="scroll-mt-20 py-20">
+      <ImmersiveSection
+        id="about"
+        index={2}
+        total={5}
+        className="scroll-mt-20 py-20"
+      >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl border border-border/60 bg-card/70 p-6 shadow-sm backdrop-blur-sm sm:p-8 lg:p-10">
             {/* Section Header */}
@@ -329,11 +345,13 @@ export default function HomePage() {
             </ExpandableSection>
           </div>
         </div>
-      </section>
+      </ImmersiveSection>
 
       {/* ===== Projects Section ===== */}
-      <section
+      <ImmersiveSection
         id="projects"
+        index={3}
+        total={5}
         className="scroll-mt-20 border-t border-border/40 bg-muted/20 py-20"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -381,10 +399,15 @@ export default function HomePage() {
             </ExpandableSection>
           </div>
         </div>
-      </section>
+      </ImmersiveSection>
 
       {/* ===== Contact Section ===== */}
-      <section id="contact" className="scroll-mt-20 py-20">
+      <ImmersiveSection
+        id="contact"
+        index={4}
+        total={5}
+        className="scroll-mt-20 py-20"
+      >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl border border-border/60 bg-card/70 p-6 shadow-sm backdrop-blur-sm sm:p-8 lg:p-10">
             <ScrollReveal>
@@ -456,7 +479,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </ImmersiveSection>
+    </ImmersiveShell>
   );
 }

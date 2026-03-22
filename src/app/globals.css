@@ -49,6 +49,7 @@
 
 :root {
   --radius: 0.625rem;
+  --journey-progress: 0;
   --background: oklch(0.985 0.008 244.64);
   --foreground: oklch(0.23 0.02 255.85);
   --card: oklch(0.995 0.004 244.64);
@@ -174,6 +175,103 @@
 
 .animate-marquee:hover {
   animation-play-state: paused;
+}
+
+.journey-fallback {
+  background:
+    radial-gradient(
+      circle at 12% 20%,
+      hsl(217 91% 60% / 0.14),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 88% 22%,
+      hsl(190 80% 48% / 0.12),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 52% 92%,
+      hsl(222 78% 84% / 0.22),
+      transparent 45%
+    ),
+    linear-gradient(
+      180deg,
+      hsl(220 55% 98%),
+      hsl(215 60% 96%) 45%,
+      hsl(220 50% 94%)
+    );
+}
+
+.dark .journey-fallback {
+  background:
+    radial-gradient(circle at 12% 20%, hsl(217 91% 60% / 0.2), transparent 30%),
+    radial-gradient(
+      circle at 88% 22%,
+      hsl(190 80% 48% / 0.16),
+      transparent 26%
+    ),
+    radial-gradient(circle at 52% 92%, hsl(222 47% 11% / 0.4), transparent 45%),
+    #020617;
+}
+
+.journey-grid {
+  background-image:
+    linear-gradient(hsl(218 45% 56% / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(218 45% 56% / 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(circle at center, black 28%, transparent 80%);
+  opacity: 0.22;
+  will-change: opacity;
+}
+
+.dark .journey-grid {
+  background-image:
+    linear-gradient(hsl(217 91% 60% / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(217 91% 60% / 0.08) 1px, transparent 1px);
+  opacity: 0.35;
+}
+
+.journey-grain {
+  background-image: radial-gradient(
+    hsl(220 35% 30% / 0.12) 0.7px,
+    transparent 0.7px
+  );
+  background-size: 3px 3px;
+  opacity: 0.03;
+  mix-blend-mode: multiply;
+  will-change: opacity;
+}
+
+.dark .journey-grain {
+  background-image: radial-gradient(
+    hsl(0 0% 100% / 0.1) 0.7px,
+    transparent 0.7px
+  );
+  opacity: 0.06;
+  mix-blend-mode: soft-light;
+}
+
+@media (max-width: 1024px) {
+  .journey-grid {
+    opacity: 0.12;
+  }
+
+  .dark .journey-grid {
+    opacity: 0.18;
+  }
+
+  .journey-grain {
+    opacity: 0.015;
+  }
+
+  .dark .journey-grain {
+    opacity: 0.03;
+  }
+}
+
+.journey-section {
+  transform-origin: center top;
+  will-change: transform, opacity;
 }
 
 /* Custom scrollbar */
