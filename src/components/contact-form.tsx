@@ -24,6 +24,32 @@ export function ContactForm() {
       });
 
       if (response.ok) {
+        const name = formData.get("name");
+        const email = formData.get("email");
+        const message = formData.get("message");
+
+        if (
+          typeof name === "string" &&
+          typeof email === "string" &&
+          typeof message === "string"
+        ) {
+          try {
+            await fetch("/api/notify-telegram", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name,
+                email,
+                message,
+              }),
+            });
+          } catch (notifyError) {
+            console.error("Telegram notification error:", notifyError);
+          }
+        }
+
         setIsSubmitted(true);
         form.reset();
       }
