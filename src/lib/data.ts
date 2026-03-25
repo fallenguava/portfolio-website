@@ -269,6 +269,176 @@ export const experiences: Experience[] = [
 
 export const projects: Project[] = [
   {
+    id: "traffic-control-ai",
+    title: "Traffic Control using AI",
+    shortDescription:
+      "Academic research integrating YOLOv8, DBSCAN, and Q-Learning for adaptive traffic signal control. Achieved 42.96% improvement over fixed-time systems with only 0.30% gap to actuated control.",
+    longDescription:
+      "An academic research project developing an AI-powered adaptive traffic control system that addresses the fundamental limitations of conventional fixed-time signal controllers.\n\nProblem:\n✗ Fixed-time systems exhibit 35% performance degradation during off-peak and 45-60% delay increases during peak hours\n✗ 94% of traffic AI research focuses on single-algorithm solutions — no study systematically integrates computer vision, clustering, and reinforcement learning\n✗ Direct RL training on live infrastructure is impossible due to safety constraints\n✗ Existing approaches treat intersections as unified entities, ignoring lane-specific conditions\n\nSolution: A novel multi-algorithm integration framework:\n1. YOLOv8 (nano) for real-time vehicle detection at ~30 FPS\n2. Per-lane DBSCAN clustering to extract queue length, density, and wait time per lane\n3. Q-Learning agent trained in a custom simulation (Jamming Machine) to optimize signal timing\n\nKey Results:\n✓ 42.96% improvement over fixed-time control (t=1636.3, p<0.001)\n✓ Only 0.30% gap to actuated control (near-SOTA)\n✓ Strong linear model (R²=0.93) relating reward weights to performance\n✓ Balanced multi-objective reward outperforms extreme single-objective by 24%\n\nFirst systematic framework combining YOLOv8 + DBSCAN + Q-Learning for traffic control.",
+    caseStudy: {
+      highlights: [
+        {
+          label: "vs Fixed-Time",
+          value: "+42.96%",
+          emphasis: "high",
+          icon: "TrendingUp",
+        },
+        {
+          label: "Gap to Actuated",
+          value: "0.30%",
+          emphasis: "high",
+          icon: "Gauge",
+        },
+        {
+          label: "Reward Model Fit",
+          value: "R²=0.93",
+          emphasis: "high",
+          icon: "LineChart",
+        },
+        {
+          label: "Status",
+          value: "Accepted, Published Soon",
+          emphasis: "high",
+          icon: "Check",
+        },
+      ],
+      overview: [
+        "Developed an AI-powered adaptive traffic signal control system as part of undergraduate research at BINUS University.",
+        "First systematic framework integrating YOLOv8 computer vision, DBSCAN spatial clustering, and Q-Learning reinforcement learning for traffic control.",
+        "Published result demonstrates near-state-of-the-art performance with only 0.30% gap to actuated control.",
+      ],
+      problem: [
+        "Fixed-time traffic systems degrade by 35% during off-peak and cause 45-60% delay increases during peak hours.",
+        "94% of traffic AI research uses single-algorithm approaches — no prior study systematically combined vision, clustering, and RL.",
+        "Direct RL training on live infrastructure is impossible due to safety risks, creating sim-to-real performance gaps of 35-50%.",
+        "Existing approaches treat intersections as single entities, missing lane-level congestion patterns critical for optimization.",
+      ],
+      solution: [
+        "Designed a closed-loop control architecture: YOLOv8 detects vehicles → DBSCAN extracts per-lane queue patterns → Q-Learning agent optimizes signal timing.",
+        "Developed a custom simulation environment (Jamming Machine) to enable safe RL training with realistic traffic dynamics.",
+        "Introduced per-lane DBSCAN methodology — a novel approach with zero prior applications in real-time traffic signal control.",
+        "Systematic reward function optimization revealed a predictive linear model (R²=0.93) for tuning operational priorities.",
+      ],
+      architecture: {
+        title: "System Architecture",
+        layers: [
+          {
+            title: "Computer Vision Layer",
+            icon: "Camera",
+            items: [
+              "YOLOv8n (nano) — real-time detection at ~30 FPS on CPU",
+              "640×480 RGB input, confidence threshold = 0.5",
+              "Detects: car, truck, bus, motorcycle",
+              "Assigns each detection to N/S/E/W lane ROIs",
+            ],
+          },
+          {
+            title: "Spatial Clustering Layer",
+            icon: "GitGraph",
+            items: [
+              "Per-lane DBSCAN (ε=50px, MinPts=2)",
+              "Extracts queue length, normalized density, waiting time per lane",
+              "8-dimensional state vector: [ρ_N, ρ_S, ρ_E, ρ_W, W_N, W_S, W_E, W_W]",
+              "First known per-lane DBSCAN application in real-time signal control",
+            ],
+          },
+          {
+            title: "Reinforcement Learning Layer",
+            icon: "BrainCircuit",
+            items: [
+              "Tabular Q-Learning with ε-greedy exploration (decay over 10,000 episodes)",
+              "6 actions: NS green (10s/15s/20s) and EW green (10s/15s/20s)",
+              "Reward: weighted combination of throughput, queue, wait time, fairness",
+              "Adaptive learning rate based on state visit frequency",
+            ],
+          },
+          {
+            title: "Simulation Environment",
+            icon: "Monitor",
+            items: [
+              "Custom 'Jamming Machine' simulation for safe RL training",
+              "Poisson vehicle arrivals (λ_NS=0.30, λ_EW=0.25 vehicles/step)",
+              "300 timesteps per episode (25 minutes of simulated traffic)",
+              "Episode terminates on deadlock (total queue > 40 vehicles)",
+            ],
+          },
+        ],
+      },
+      keyImplementations: [
+        {
+          title: "Multi-Algorithm Integration Pipeline",
+          icon: "Workflow",
+          points: [
+            "YOLOv8 detection coordinates feed directly into DBSCAN for spatial pattern analysis.",
+            "DBSCAN output generates enriched 8D state vectors consumed by the Q-Learning agent.",
+            "Closed-loop architecture enables continuous policy improvement from real traffic feedback.",
+          ],
+          result:
+            "Near-SOTA performance (0.30% gap to actuated) using no domain-specific traffic engineering heuristics.",
+        },
+        {
+          title: "Per-Lane DBSCAN Clustering",
+          icon: "ScanLine",
+          points: [
+            "Applies DBSCAN independently to each of the four lanes rather than the whole intersection.",
+            "Extracts queue length, density, and stationary vehicle count per lane.",
+            "Handles arbitrary queue shapes and noise from false detections without pre-specifying cluster count.",
+          ],
+          result:
+            "First per-lane DBSCAN application in real-time traffic signal control — addresses a documented research void.",
+        },
+        {
+          title: "Reward Function Optimization",
+          icon: "SlidersHorizontal",
+          points: [
+            "Systematically tested 5 reward configurations varying throughput weight (w_T: 0.40 → 0.70).",
+            "Discovered strong negative linear relationship (R²=0.93, p<0.01) between throughput emphasis and overall performance.",
+            "Baseline balanced config (w_T=0.40) outperforms extreme single-objective config (w_T=0.70) by 24%.",
+          ],
+          result:
+            "Provides practitioners a quantitative, predictable framework for tuning reward priorities without trial-and-error.",
+        },
+        {
+          title: "Hybrid Real-Simulation Training",
+          icon: "FlaskConical",
+          points: [
+            "Custom Jamming Machine simulation enables RL training without risk to live infrastructure.",
+            "Real YOLOv8+DBSCAN vision pipeline informs state representation quality.",
+            "Trained across 10,000 episodes, converging at ~8,000 with ~400 unique states visited.",
+          ],
+          result:
+            "Safe training framework that bridges the documented 35-50% sim-to-real performance degradation gap.",
+        },
+      ],
+      achievements: [
+        "42.96% performance improvement over fixed-time control (t=1636.3, p<0.001).",
+        "Only 0.30% gap to actuated control — near state-of-the-art without loop detectors.",
+        "First systematic integration of YOLOv8 + DBSCAN + Q-Learning in traffic control literature.",
+        "Linear predictive model (R²=0.93) for reward function tuning across operational contexts.",
+        "Balanced multi-objective reward outperforms extreme throughput-focused optimization by 24%.",
+      ],
+      demonstrates: [
+        "AI systems research with multi-algorithm integration and rigorous experimental evaluation.",
+        "Computer vision pipeline design (object detection → spatial clustering → state extraction).",
+        "Reinforcement learning agent design with custom simulation environment.",
+        "Statistical analysis and scientific writing (t-tests, linear regression, p-values).",
+        "Identifying and addressing documented research gaps through original methodology.",
+      ],
+    },
+    category: "Research",
+    techStack: [
+      "Python",
+      "YOLOv8",
+      "DBSCAN",
+      "Q-Learning",
+      "OpenCV",
+      "NumPy",
+      "SciPy",
+    ],
+    image: "/images/traffic-control-ai.png",
+    githubUrl: "https://github.com/fallenguava/final-aitc-thesis-repo",
+  },
+  {
     id: "homelab",
     title: "Self-Hosted Home Lab",
     shortDescription:
@@ -443,7 +613,7 @@ export const projects: Project[] = [
     shortDescription:
       "Full-stack personal finance platform with event sourcing architecture for audit-trail transactions. Available on web (Vue.js) and mobile (Flutter).",
     longDescription:
-      "Aurexa solves the problem of fragmented personal finance tracking across multiple payment methods. Traditional balance calculations become bottlenecks at scale and error-prone when tracking digital wallets, bank transfers, and QR payments.\n\nSolution: Designed and built a dual-platform personal finance app with event sourcing architecture:\n• Backend: Fastify/TypeScript API with event-driven balance calculations (guaranteed accuracy)\n• Frontend: Vue.js responsive web app + Flutter cross-platform mobile\n• Database: PostgreSQL (Supabase) with automated backups\n• Performance: BullMQ background workers for async reconciliation and notifications\n• Infrastructure: Self-managed Hetzner server with automated deployment\n\nTechnical Highlights:\n✓ Event sourcing handles thousands of transactions without calculation drift\n✓ Sub-100ms API response times through optimization and caching\n✓ Monthly balance snapshots for performance scaling\n✓ Full audit trail for every transaction (compliance-ready)\n\nImpact: Market-ready for Indonesia's growing fintech ecosystem with payment methods most Indonesians actually use.",
+      "Aurexa solves the problem of fragmented personal finance tracking across multiple payments.\n\nSolution: Designed and built a dual-platform personal finance app with event sourcing architecture:\n• Backend: Fastify/TypeScript API with event-driven balance calculations (guaranteed accuracy)\n• Frontend: Vue.js responsive web app + Flutter cross-platform mobile\n• Database: PostgreSQL (Supabase) with automated backups\n• Performance: BullMQ background workers for async reconciliation and notifications\n• Infrastructure: Self-managed Hetzner server with automated deployment\n\nTechnical Highlights:\n✓ Event sourcing handles thousands of transactions without calculation drift\n✓ Sub-100ms API response times through optimization and caching\n✓ Monthly balance snapshots for performance scaling\n✓ Full audit trail for every transaction (compliance-ready)\n\nImpact: Market-ready for Indonesia's growing fintech ecosystem with payment methods most Indonesians actually use.",
     caseStudy: {
       highlights: [
         {
@@ -459,10 +629,10 @@ export const projects: Project[] = [
           icon: "Gauge",
         },
         {
-          label: "Payment Methods",
-          value: "QRIS, VA, E-Wallet",
+          label: "Focus",
+          value: "Financial Accuracy",
           emphasis: "high",
-          icon: "CreditCard",
+          icon: "ShieldCheck",
         },
         {
           label: "Architecture",
@@ -1320,23 +1490,6 @@ export const projects: Project[] = [
     category: "UI/UX",
     techStack: ["Figma", "UI/UX Design", "iOS Design", "Prototyping"],
     image: "/images/f1-fan-app.png",
-  },
-  {
-    id: "traffic-control-ai",
-    title: "Traffic Control using AI",
-    shortDescription:
-      "A research project exploring AI-driven traffic management with Fuzzy Logic and EfficientNetB7.",
-    longDescription:
-      "An academic research project focused on intelligent traffic control using artificial intelligence. The system employs Fuzzy Logic for adaptive signal timing and EfficientNetB7 for real-time vehicle detection and classification. The research demonstrates significant improvements in traffic flow optimization, reducing congestion and wait times through AI-driven decision making at intersections.",
-    category: "Research",
-    techStack: [
-      "Python",
-      "TensorFlow",
-      "Fuzzy Logic",
-      "EfficientNetB7",
-      "OpenCV",
-    ],
-    image: "/images/traffic-control-ai.png",
   },
   {
     id: "akukatsoe",
